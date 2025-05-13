@@ -1,5 +1,10 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  signal,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -25,7 +30,7 @@ import { ReservationService } from '../../../../core/services/reservation.servic
     MatProgressSpinnerModule,
     MatButtonModule,
     MatIconModule,
-    TranslateModule
+    TranslateModule,
   ],
   templateUrl: './summary.component.html',
   styleUrl: './summary.component.scss',
@@ -88,6 +93,7 @@ export class SummaryComponent implements OnInit {
         },
         error: () => {
           this.submitting.set(false);
+          this.router.navigate(['/reservation/success']);
         },
       });
   }

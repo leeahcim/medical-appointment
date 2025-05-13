@@ -169,7 +169,7 @@ export class ReservationService {
    */
   startNewReservation(): void {
     this.resetReservation();
-    this.router.navigate(['/slot-selection']);
+    this.router.navigate(['/reservation/slot-selection']);
   }
 
   /**

@@ -5,6 +5,7 @@
 @tailwind utilities;
 
 @import './assets/styles/_material.scss'; 
+@import './assets/styles/_variables.scss';
 
 /* You can add global styles to this file, and also import other style files */
 
@@ -22,5 +23,5 @@ html {
 
 body {
   font-family: 'Roboto', sans-serif;  
-  color: #033f75;
+  color: var(--text-color);
 }

@@ -77,7 +77,7 @@ form.newsletter .two-side-wrapper .right-side {
 }
 
 .highlight {
-  color: #0ba13b;
+  color: var(--primary);
 }
 
 #footer .footer-bottom .footer-inner {
@@ -177,6 +177,6 @@ input[type='submit'] {
     border-color 0.5s;
 
   color: #fff;
-  background: #0ba13b;
-  border-color: #0ba13b;
+  background: var(--primary);
+  border-color: var(--primary);
 }

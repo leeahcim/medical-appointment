@@ -3,8 +3,7 @@ import {
   AfterViewInit,
   Component,
   inject,
-  OnInit,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,8 +13,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { Router } from '@angular/router';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { ReservationService } from '../../../../core/services/reservation.service';
+import { LANGUAGES, TranslateLangService } from '../../../../core/services/translate.service';
 import { CancelReservationDialogComponent } from '../../../../features/reservation/components/cancel-reservation-dialog/cancel-reservation-dialog.component';
 
 @Component({
@@ -36,17 +36,15 @@ import { CancelReservationDialogComponent } from '../../../../features/reservati
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent implements OnInit, AfterViewInit {
+export class HeaderComponent implements  AfterViewInit {
   reservation = inject(ReservationService);
   dialog = inject(MatDialog);
   router = inject(Router);
-  translate = inject(TranslateService);
+  translate = inject(TranslateLangService);
+
+  langualges = LANGUAGES;
 
   @ViewChild('stepper') stepper!: MatStepper;
-
-  ngOnInit(): void {
-    this.resloveTranslation();
-  }
 
   ngAfterViewInit(): void {
     this.reservation.setStepper(this.stepper);
@@ -54,33 +52,14 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   cancelReservation(): void {
     const dialog = this.dialog.open(CancelReservationDialogComponent, {
-      width: '250px',
+      width: '640px',
     });
 
     dialog.afterClosed().subscribe((result) => {
       if (result) {
         this.reservation.resetReservation();
-        this.router.navigate(['/reservation/slot-selection']);
       }
     });
   }
 
-  switchLanguage(lang: string) {
-    this.translate.use(lang);
-  }
-
-  private resloveTranslation(): void {
-    this.translate.addLangs(['en', 'de']);
-    const browserLang = navigator.languages
-      ? navigator.languages[0].split('-')[0]
-      : navigator.language.split('-')[0];
-
-    // Get the current browser language, if included set it
-    const defaultLang = this.translate.getLangs().includes(browserLang)
-      ? browserLang
-      : 'en';
-
-    // Set the default and current language
-    this.translate.setDefaultLang(defaultLang);
-  }
 }

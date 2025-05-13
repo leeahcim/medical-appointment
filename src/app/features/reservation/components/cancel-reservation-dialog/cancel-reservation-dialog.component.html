@@ -1,8 +1,16 @@
-<h2 mat-dialog-title>Ukoncenie procesu</h2>
 <mat-dialog-content>
- „Chystáte sa zrušiť rezervačný proces“
+  <div class="p-8">
+    <p class="text-[32px]/[32px] mb-8 text-center" [innerHTML]="'CANCEL_RESERVATION.TITLE' | translate">
+    </p>
+    <p>{{ 'CANCEL_RESERVATION.TEXT' | translate }}</p>
+
+    <div class="flex gap-4 mt-8">
+      <button mat-stroked-button (click)="submitCancel()" >
+        {{ 'CANCEL_RESERVATION.APPROVE' | translate }}
+      </button>
+      <button mat-flat-button mat-dialog-close cdkFocusInitial> 
+        {{ 'CANCEL_RESERVATION.CANCEL' | translate }}
+      </button>
+    </div>
+  </div>
 </mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button mat-dialog-close>No</button>
-  <button mat-button (click)="submitCancel()" cdkFocusInitial>Áno, zrušiť</button>
-</mat-dialog-actions>

@@ -38,5 +38,11 @@
     "TERMS_2": "I agree with the general terms and conditions of Bory Hospital, a.s.",
     "TERMS_3": "I agree to the processing of data for marketing purposes.",
     "MANDATORY": "This consent is mandatory"
+  },
+  "CANCEL_RESERVATION": {
+    "TITLE": "You are about to cancel <br> the reservation process",
+    "TEXT": "Do you really want to cancel the reservation process? After this step, you will lose any saved changes, and if you want to make a reservation again, you will need to go through the entire process from the beginning.",
+    "APPROVE": "Yes, cancel the reservation",
+    "CANCEL": "No, I want to continue"
   }
 }

@@ -138,7 +138,7 @@
         type="submit"
         mat-flat-button
         color="primary"
-        [disabled]="agreementsForm.invalid || submitting"
+        [disabled]="agreementsForm.invalid || submitting()"
       >
         @if(!submitting()) {
         <span> {{ 'COMMON.RESERVE' | translate }}</span>

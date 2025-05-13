@@ -29,14 +29,14 @@
 
       .slot-item {
         border-radius: 32px;
-        border: 1px solid var(--Variant_KZ-vKZ_Skeleton---Primary, #033f75);
+        border: 1px solid var(--text-color);
         text-align: center;
         cursor: pointer;
         transition: all 0.2s ease;
 
         padding: 14px 24px;
         &.selected {
-          background: var(--Variant_KZ-vKZ_Skeleton---Secondary, #0ba13b);
+          background: var(--primary);
           color: white;
           border: none;
         }
@@ -66,5 +66,5 @@
   height: 10px;
   margin-right: 10px;
   border-radius: 100%;
-  background: #0BA13B;
+  background: var(--primary);
 }

@@ -39,5 +39,11 @@
     "TERMS_2": "Súhlasím so všeobecnými obchodnými podmienkami spoločnosti Nemocnica Bory, a.s.",
     "TERMS_3": "Súhlasím so spracovaním údajov pre marketingové účely.",
     "MANDATORY": "Tento súhlas je povinný"
+  },
+  "CANCEL_RESERVATION": {
+    "TITLE": "Chystáte sa zrušiť <br> rezervačný proces",
+    "TEXT": "Naozaj chcete zrušiť proces rezervácie? Po tomto kroku stratíte uložené zmeny a v prípade opätovnej rezervácie bude potrebné spraviť celý proces odznova.",
+    "APPROVE": "Áno, zrušiť rezerváciu",
+    "CANCEL": "Nie, chcem pokračovať"
   }
 }

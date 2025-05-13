@@ -1,0 +1,43 @@
+{
+  "COMMON": {
+    "CONTINUE": "Pokračovať",
+    "AGAIN": "Skúste Znova",
+    "RESERVE": "Rezervovať a zaplatiť",
+
+    "MANDATORY": "je povinné"
+  },
+  "STEPPER": {
+    "STEP_1": "Výber termínu",
+    "STEP_2": "Vaše údaje",
+    "STEP_3": "Zhrnutie"
+  },
+  "SLOT": {
+    "TITLE": "Doprajte si druhý názor od XX v Nemocnici Bory",
+    "DESCRIPTION": "Vyberte si termín na XX-minútovú konzultáciu za poplatok a náš odborník zhodnotí váš zdravotný stav a odporučí spôsob liečby.",
+    "FREE_TERMS": "Dni s dostupnými termínmi",
+    "FREE_TIMES": "Dostupné termíny",
+    "NOT_AVAILABLE": "Momentálne nie sú dostupné žiadne termíny na tento dátum.",
+    "LOADING_TERMS": "Načítavame dostupné termíny...",
+    "LOADING_TERMS_FAILED": "Načítanie dostupných termínov zlyhalo. Skúste to prosím neskôr."
+  },
+  "PERSONAL": {
+    "PERSONAL_DATA": "Osobné údaje",
+    "CONTACT_DATA": "Kontaktné údaje",
+    "FIRST_NAME": "Meno",
+    "LAST_NAME": "Priezvisko",
+    "EMAIL": "E-mail",
+    "PHONE": "Telefónne číslo",
+    "BIRTH_NUM": "Rodné číslo",
+    "COUNTRY": "Štát",
+    "CITY": "Mesto",
+    "ADDRESS": "Adresa"
+  },
+  "SUMMARY": {
+    "TITLE": "Zhrnutie rezervácie",
+    "DATE": "Vybraný termín",
+    "TERMS_1": "Oboznámil/a som sa s informáciami o spracúvaní osobných údajov.",
+    "TERMS_2": "Súhlasím so všeobecnými obchodnými podmienkami spoločnosti Nemocnica Bory, a.s.",
+    "TERMS_3": "Súhlasím so spracovaním údajov pre marketingové účely.",
+    "MANDATORY": "Tento súhlas je povinný"
+  }
+}

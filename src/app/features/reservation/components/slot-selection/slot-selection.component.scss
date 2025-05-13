@@ -1,0 +1,70 @@
+.slot-selection {
+  h2 {
+    margin-bottom: 2rem;
+    font-weight: 500;
+  }
+
+  .loading,
+  .error-state,
+  .no-slots {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+
+    p {
+      margin-top: 1rem;
+    }
+  }
+
+  .dates-container {
+    margin-bottom: 2rem;
+
+    .slots-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+
+      .slot-item {
+        border-radius: 32px;
+        border: 1px solid var(--Variant_KZ-vKZ_Skeleton---Primary, #033f75);
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        padding: 14px 24px;
+        &.selected {
+          background: var(--Variant_KZ-vKZ_Skeleton---Secondary, #0ba13b);
+          color: white;
+          border: none;
+        }
+      }
+    }
+  }
+
+  .action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2rem;
+
+    button {
+      min-width: 120px;
+    }
+  }
+}
+
+.divider {
+  height: 24rem;
+  width: 1px;
+  background-color: #e0e0e0;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  margin-right: 10px;
+  border-radius: 100%;
+  background: #0BA13B;
+}

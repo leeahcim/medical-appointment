@@ -1,0 +1,71 @@
+<div class="slot-selection flex flex-col items-center w-full">
+  <p class="text-[24px] mb-4">{{ "SLOT.TITLE" | translate}}</p>
+  <p class="text-[16px] mb-8 text-center">
+   {{ "SLOT.DESCRIPTION" | translate}}
+  </p>
+
+  @if(loading()) {
+  <div class="loading">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>  {{ "SLOT.LOADING_TERMS" | translate}}</p>
+  </div>
+  } @if(error() && !loading()) {
+  <div class="error-state">
+    <p> {{ "SLOT.LOADING_TERMS_FAILED" | translate}}</p>
+    <button mat-raised-button color="primary" (click)="retryLoading()">
+       {{ "COMMON.AGAIN" | translate}}
+    </button>
+  </div>
+  } @if(!loading() && !error()) {
+  <mat-card class="p-8">
+    <div class="flex gap-8">
+      <div class="w-[20rem]">
+        <mat-calendar
+          [dateClass]="dateClass"
+          [(selected)]="selectedDate"
+        ></mat-calendar>
+        <div class="flex items-center text-sm">
+          <div class="dot"></div>
+          {{ "SLOT.FREE_TERMS" | translate}}
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="dates-container w-[20rem]">
+        <!-- Check if selectedDate exists in groupedSlots-->
+        <p class="font-[14px] text-center mb-8"> {{ "SLOT.FREE_TIMES" | translate}}</p>
+        <ng-container *ngIf="timesForDate().length; else noDates">
+          <div class="slots-grid">
+            <div
+              *ngFor="let slot of timesForDate()"
+              class="slot-item"
+              [class.selected]="slot.id === selectedSlotId()"
+              tabindex="0"
+              (click)="selectSlot(slot)"
+              (keydown.enter)="selectSlot(slot)"
+              (keydown.space)="selectSlot(slot)"
+            >
+              {{ slot.time }}
+            </div>
+          </div>
+        </ng-container>
+        <!-- Message if no slots are available for the selected date -->
+        <ng-template #noDates>
+          <p>{{ "SLOT.NOT_AVAILABLE" | translate}}</p>
+        </ng-template>
+      </div>
+    </div>
+  </mat-card>
+
+  <div class="action-buttons ml-auto">
+    <button
+      mat-flat-button
+      color="primary"
+      [disabled]="!selectedSlotId()"
+      (click)="continueToNextStep()"
+    >
+      {{ "COMMON.CONTINUE" | translate}}
+    </button>
+  </div>
+
+  }
+</div>

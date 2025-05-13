@@ -1,0 +1,38 @@
+<div class="header flex items-center justify-between p-4">
+  <img src="/assets/images/logo.svg" alt="Logo" class="h-12 ml-4" />
+  <mat-stepper class="stepper pointer-events-none" linear #stepper>
+    <mat-step>
+      <ng-template matStepLabel>{{ "STEPPER.STEP_1" | translate }}</ng-template>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>{{ "STEPPER.STEP_2" | translate }}</ng-template>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>{{ "STEPPER.STEP_3" | translate }}</ng-template>
+    </mat-step>
+  </mat-stepper>
+
+  <div class="flex">
+    <div class="flex gap-2 items-center justify-center mr-8">
+      <span
+        tabindex="0"
+        class="cursor-pointer"
+        (click)="switchLanguage('sk')"
+        (keydown.enter)="switchLanguage('sk')"
+        >SK</span
+      >
+      <span>/</span>
+      <span
+        tabindex="1"
+        class="cursor-pointer"
+        (click)="switchLanguage('en')"
+        (keydown.enter)="switchLanguage('en')"
+        >EN</span
+      >
+    </div>
+
+    <button mat-icon-button (click)="cancelReservation()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>

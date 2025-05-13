@@ -1,0 +1,28 @@
+<div class="thank-you">
+  @if(reservation.reservation$ | async; as reservation){
+  <div class="message-container">
+    @if(reservation.isSuccessful) {
+    <div class="success-message">
+      <p class="text-[24px] mb-6">
+        Vaša rezervácia bola úspešná, {{ reservation.personalData?.firstName }}.
+      </p>
+      <p class="text-[16px] mb-8 text-green-600">
+        Váš termín na konzultáciu máte úspešne rezervovaný.
+      </p>
+      <button mat-flat-button color="primary" (click)="goToHospitalSite()">
+        Späť na stránku Nemocnice Bory
+      </button>
+    </div>
+    } @if(!reservation.isSuccessful) {
+    <div class="error-message">
+      <p class="text-[16px] mb-8 text-red-600">
+        Vaša rezervácia termínu na konzultáciu nebola dokončená.
+      </p>
+      <button mat-flat-button color="primary" (click)="startNewReservation()">
+        Začať novú rezerváciu
+      </button>
+    </div>
+    }
+  </div>
+  }
+</div>

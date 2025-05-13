@@ -1,0 +1,29 @@
+:root {
+  --mat-sys-surface-container-low: #fff;
+  --mat-sys-on-surface: #033f75;
+  --mat-sys-on-surface-variant: #033f75;
+}
+
+.mat-horizontal-content-container {
+  padding: 0 !important;
+}
+
+.mdc-notched-outline__notch {
+  border-right: none;
+}
+
+button.has-terms {
+  &:before {
+    content: '';
+
+    background: #0ba13b;
+    position: absolute;
+    border-radius: 100%;
+    width: 10px;
+    height: 10px;
+    bottom: 0px;
+    top: auto;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}

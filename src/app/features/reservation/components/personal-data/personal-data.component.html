@@ -1,0 +1,109 @@
+<div class="personal-data">
+  <p class="text-[24px] mb-4">{{ 'PERSONAL.PERSONAL_DATA' | translate }}</p>
+
+  <form [formGroup]="personalDataForm" (ngSubmit)="onSubmit()">
+    <div class="form-fields">
+      <div class="form-row flex gap-4">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'PERSONAL.FIRST_NAME' | translate }}</mat-label>
+          <input matInput formControlName="firstName" />
+          @if(f['firstName'].touched && f['firstName'].errors?.['required']) {
+          <mat-error>
+            {{ 'PERSONAL.FIRST_NAME' | translate }}
+            {{ 'COMMON.MANDATORY' | translate }}
+          </mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'PERSONAL.LAST_NAME' | translate }}</mat-label>
+          <input matInput formControlName="lastName" />
+          @if(f['lastName'].touched && f['lastName'].errors?.['required']) {
+          <mat-error>
+            {{ 'PERSONAL.LAST_NAME' | translate }}
+            {{ 'COMMON.MANDATORY' | translate }}
+          </mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'PERSONAL.BIRTH_NUM' | translate }}</mat-label>
+          <input matInput formControlName="personalId" />
+          @if(isPersonalIdInvalid) {
+          <mat-error>
+            {{ personalIdErrorMessage }}
+          </mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <div class="form-row flex gap-4">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'PERSONAL.COUNTRY' | translate }}</mat-label>
+          <mat-select formControlName="country">
+            @for(country of countries; track $index) {
+            <mat-option [value]="country.value">
+              {{ country.label }}
+            </mat-option>
+            }
+          </mat-select>
+          @if(f['country'].touched && f['country'].errors?.['required']) {
+          <mat-error>
+            {{ 'PERSONAL.COUNTRY' | translate }}
+            {{ 'COMMON.MANDATORY' | translate }}
+          </mat-error>
+          }
+        </mat-form-field>
+        @if(showCity) {
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'PERSONAL.CITY' | translate }}</mat-label>
+          <input matInput formControlName="city" />
+          @if(f['city'].touched && f['city'].errors?.['required']) {
+          <mat-error>
+            {{ 'PERSONAL.CITY' | translate }}
+            {{ 'COMMON.MANDATORY' | translate }}
+          </mat-error>
+          }
+        </mat-form-field>
+        }
+      </div>
+
+      <p class="text-[24px] mb-4">{{ 'PERSONAL.CONTACT_DATA' | translate }}</p>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'PERSONAL.EMAIL' | translate }}</mat-label>
+          <input matInput formControlName="email" type="email" />
+          @if(isEmailInvalid) {
+          <mat-error>
+            {{ emailErrorMessage }}
+          </mat-error>
+          }
+        </mat-form-field>
+      </div>
+    </div>
+
+    @if(submitError()) {
+    <div class="error-message">
+      <p>Vyskytla sa chyba pri odosielaní údajov. Prosím, skúste to znova.</p>
+      {{ submitErrorMessage() }}
+    </div>
+    }
+
+    <div class="action-buttons">
+      <button
+        type="submit"
+        mat-flat-button
+        color="primary"
+        [disabled]="personalDataForm.invalid || submitting()"
+      >
+        @if(!submitting()) {
+        <span> {{ 'COMMON.CONTINUE' | translate }}</span>
+        } @if(submitting()) {
+        <mat-spinner diameter="20" color="accent"></mat-spinner>
+        }
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,1 +1,26 @@
+@use '@angular/material' as mat;
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import './assets/styles/_material.scss'; 
+
 /* You can add global styles to this file, and also import other style files */
+
+
+html {
+  color-scheme: light;
+  @include mat.theme(
+    (
+      color: mat.$green-palette,
+      typography: Roboto,
+      density: 0,
+    )
+  );
+}
+
+body {
+  font-family: 'Roboto', sans-serif;  
+  color: #033f75;
+}

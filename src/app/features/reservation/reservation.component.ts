@@ -1,0 +1,57 @@
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { NavigationStart, Router, RouterModule } from '@angular/router';
+import { filter } from 'rxjs';
+import { ReservationService } from '../../core/services/reservation.service';
+
+@Component({
+  selector: 'ma-reservation',
+  imports: [RouterModule, MatButtonModule, MatIconModule],
+  templateUrl: './reservation.component.html',
+  styleUrl: './reservation.component.scss',
+})
+export class ReservationComponent implements OnInit {
+  showCancelModal = signal<boolean>(false);
+  currentStep = '';
+
+  router = inject(Router);
+  reservation = inject(ReservationService);
+  ngOnInit(): void {
+    // Listen to route changes to update current step
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationStart))
+      .subscribe((event: any) => {
+        const path = event.url.split('/').pop();
+        this.currentStep = this.getStepName(path);
+      });
+
+    // Initialize current step from URL
+    const path = this.router.url.split('/').pop();
+    this.currentStep = this.getStepName(path as string);
+
+    // Handle browser back button
+    window.onpopstate = () => {
+      // Redirect to the first step when back button is pressed
+      this.router.navigate(['/slot-selection']);
+      return false;
+    };
+  }
+
+
+
+  private getStepName(path: string): string {
+    switch (path) {
+      case 'slot-selection':
+        return 'Výber termínu';
+      case 'personal-data':
+        return 'Osobné údaje';
+      case 'summary':
+        return 'Zhrnutie rezervácie';
+      case 'thank-you':
+        return ''; // No step name on thank you page
+      default:
+        return 'Výber termínu';
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "COMMON": {
+    "CONTINUE": "Continue",
+    "AGAIN": "Try Again",
+    "RESERVE": "Reserve and Pay",
+    "MANDATORY": "is mandatory"
+  },
+  "STEPPER": {
+    "STEP_1": "Select an Appointment",
+    "STEP_2": "Your Details",
+    "STEP_3": "Summary"
+  },
+  "SLOT": {
+    "TITLE": "Get a second opinion from XX at Bory Hospital",
+    "DESCRIPTION": "Choose a date for an XX-minute consultation for a fee, and our specialist will assess your health condition and recommend a treatment plan.",
+    "FREE_TERMS": "Days with available appointments",
+    "FREE_TIMES": "Available appointments",
+    "NOT_AVAILABLE": "There are currently no available appointments for this date.",
+    "LOADING_TERMS": "Loading available appointments...",
+    "LOADING_TERMS_FAILED": "Failed to load available appointments. Please try again later."
+  },
+  "PERSONAL": {
+    "PERSONAL_DATA": "Personal Information",
+    "CONTACT_DATA": "Contact Information",
+    "FIRST_NAME": "First Name",
+    "LAST_NAME": "Last Name",
+    "EMAIL": "Email",
+    "PHONE": "Phone Number",
+    "BIRTH_NUM": "Birth Number",
+    "COUNTRY": "Country",
+    "CITY": "City",
+    "ADDRESS": "Address"
+  },
+  "SUMMARY": {
+    "TITLE": "Reservation Summary",
+    "DATE": "Selected Appointment",
+    "TERMS_1": "I have read the information about the processing of personal data.",
+    "TERMS_2": "I agree with the general terms and conditions of Bory Hospital, a.s.",
+    "TERMS_3": "I agree to the processing of data for marketing purposes.",
+    "MANDATORY": "This consent is mandatory"
+  }
+}

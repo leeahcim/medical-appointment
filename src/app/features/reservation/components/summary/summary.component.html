@@ -1,8 +1,10 @@
 @if(reservation$ | async; as reservation){
 <div class="summary">
-  <p class="text-[24px] mb-8 text-center">{{ 'SUMMARY.TITLE' | translate }}</p>
+  <p @slideInUpOnEnter class="text-[24px] mb-8 text-center">
+    {{ 'SUMMARY.TITLE' | translate }}
+  </p>
 
-  <div class="summary-content">
+  <div @slideInRightOnEnter class="summary-content">
     <div class="flex flex-col md:flex-row gap-6">
       @if(reservation.personalData) {
       <div class="bg-white rounded-lg p-6 flex-1">
@@ -102,6 +104,7 @@
   </div>
 
   <form
+    @slideInRightOnEnter
     class="agreements-form"
     [formGroup]="agreementsForm"
     (ngSubmit)="onSubmit()"

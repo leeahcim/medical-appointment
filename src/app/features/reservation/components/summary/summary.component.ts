@@ -19,7 +19,8 @@ import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { Reservation } from '../../../../core/models/reservation.model';
-import { ReservationService } from '../../../../core/services/reservation.service';
+import { slideInRightOnEnterAnimation, slideInUpOnEnterAnimation } from '../../../../core/services/animations.service';
+import { ReservationService } from '../../services/reservation.service';
 
 @Component({
   selector: 'ma-summary',
@@ -35,6 +36,7 @@ import { ReservationService } from '../../../../core/services/reservation.servic
   templateUrl: './summary.component.html',
   styleUrl: './summary.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [slideInRightOnEnterAnimation(), slideInUpOnEnterAnimation()],
   providers: [DatePipe],
 })
 export class SummaryComponent implements OnInit {

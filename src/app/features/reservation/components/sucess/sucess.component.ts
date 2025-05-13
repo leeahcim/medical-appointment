@@ -8,7 +8,7 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
-import { ReservationService } from '../../../../core/services/reservation.service';
+import { ReservationService } from '../../services/reservation.service';
 
 @Component({
   selector: 'ma-sucess',

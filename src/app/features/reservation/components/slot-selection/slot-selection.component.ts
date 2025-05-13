@@ -5,6 +5,7 @@ import {
   computed,
   inject,
   model,
+  OnDestroy,
   OnInit,
   signal,
 } from '@angular/core';
@@ -20,7 +21,15 @@ import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { Slot } from '../../../../core/models/slot.model';
-import { ReservationService } from '../../../../core/services/reservation.service';
+import { slideInRightOnEnterAnimation, slideInUpOnEnterAnimation } from '../../../../core/services/animations.service';
+import { UnsubscribeController } from '../../../../core/utils/unsubscribe-controller';
+import { ReservationFactoryService } from '../../services/reservation.factory.service';
+import { ReservationService } from '../../services/reservation.service';
+
+export interface SlotGroup {
+  date: string;
+  slots: Slot[];
+}
 
 @Component({
   selector: 'ma-slot-selection',
@@ -30,15 +39,17 @@ import { ReservationService } from '../../../../core/services/reservation.servic
     MatButtonModule,
     MatCardModule,
     MatDatepickerModule,
-    TranslateModule
+    TranslateModule,
   ],
   templateUrl: './slot-selection.component.html',
   styleUrl: './slot-selection.component.scss',
   providers: [provideNativeDateAdapter()],
+  animations: [slideInRightOnEnterAnimation(), slideInUpOnEnterAnimation()],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SlotSelectionComponent implements OnInit {
+export class SlotSelectionComponent implements OnInit, OnDestroy {
   reservationService = inject(ReservationService);
+  reservationFactory = inject(ReservationFactoryService);
   router = inject(Router);
 
   slots$!: Observable<Slot[]>;
@@ -46,24 +57,27 @@ export class SlotSelectionComponent implements OnInit {
   loading = signal<boolean>(false);
   error = signal<boolean>(false);
 
+  private unsub = new UnsubscribeController();
+
   dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
     // Only highligh dates inside the month view.
     if (view === 'month') {
       const date = cellDate;
 
       // Highlight the 1st and 20th day of each month.
-      return this.groupedSlots.some(group => {
-        return  new Date(group.date).toISOString() ===
-          new Date(date).toISOString()
-      }
-      ) ? 'has-terms' : '';
+      return this.groupedSlots.some((group) => {
+        return (
+          new Date(group.date).toISOString() === new Date(date).toISOString()
+        );
+      })
+        ? 'has-terms'
+        : '';
     }
 
     return '';
   };
 
   selectedDate = model<Date>(new Date());
-
   timesForDate = computed(() => {
     return (
       this.groupedSlots.find((group) => {
@@ -76,7 +90,7 @@ export class SlotSelectionComponent implements OnInit {
   });
 
   // Grouped slots by date for UI rendering
-  groupedSlots: { date: string; slots: Slot[] }[] = [];
+  groupedSlots: SlotGroup[] = [];
 
   ngOnInit(): void {
     this.slots$ = this.reservationService.availableSlots$;
@@ -85,11 +99,13 @@ export class SlotSelectionComponent implements OnInit {
     this.loadSlots();
 
     // Subscribe to current reservation state
-    this.reservationService.reservation$.subscribe((reservation) => {
-      if (reservation.selectedSlot) {
-        this.selectedSlotId.set(reservation.selectedSlot.id);
+    this.unsub.sub = this.reservationService.reservation$.subscribe(
+      (reservation) => {
+        if (reservation.selectedSlot) {
+          this.selectedSlotId.set(reservation.selectedSlot.id);
+        }
       }
-    });
+    );
   }
 
   loadSlots(): void {
@@ -98,8 +114,7 @@ export class SlotSelectionComponent implements OnInit {
 
     this.reservationService.fetchAvailableSlots().subscribe({
       next: (slots) => {
-        this.groupSlotsByDate(slots);
-
+        this.groupedSlots = this.reservationFactory.groupSlotsByDate(slots);
         this.loading.set(false);
       },
       error: (err) => {
@@ -126,34 +141,7 @@ export class SlotSelectionComponent implements OnInit {
     this.loadSlots();
   }
 
-  private groupSlotsByDate(slots: Slot[]): void {
-    // Reset grouped slots
-    this.groupedSlots = [];
-
-    // Group slots by date
-    const groupedByDate = slots.reduce(
-      (groups: { [key: string]: Slot[] }, slot) => {
-        const date = new Date(slot.date).toISOString();
-        if (!groups[date]) {
-          groups[date] = [];
-        }
-        groups[date].push(slot);
-        return groups;
-      },
-      {}
-    );
-
-    // Convert to array format for template
-    Object.keys(groupedByDate).forEach((date) => {
-      this.groupedSlots.push({
-        date: date,
-        slots: groupedByDate[date],
-      });
-    });
-
-    // Sort by date
-    this.groupedSlots.sort(
-      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-    );
+  ngOnDestroy(): void {
+    this.unsub.destroy();
   }
 }

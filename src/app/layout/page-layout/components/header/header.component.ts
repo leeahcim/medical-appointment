@@ -14,9 +14,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { ReservationService } from '../../../../core/services/reservation.service';
 import { LANGUAGES, TranslateLangService } from '../../../../core/services/translate.service';
 import { CancelReservationDialogComponent } from '../../../../features/reservation/components/cancel-reservation-dialog/cancel-reservation-dialog.component';
+import { ReservationService } from '../../../../features/reservation/services/reservation.service';
 
 @Component({
   selector: 'ma-header',

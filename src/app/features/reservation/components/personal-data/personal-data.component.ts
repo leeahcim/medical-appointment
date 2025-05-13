@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  OnDestroy,
   OnInit,
   signal,
 } from '@angular/core';
@@ -20,9 +21,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { ReservationService } from '../../../../core/services/reservation.service';
+import { Subscription } from 'rxjs';
+import { slideInRightOnEnterAnimation, slideInUpOnEnterAnimation } from '../../../../core/services/animations.service';
 import { ValidationService } from '../../../../core/services/validation.service';
+import { UnsubscribeController } from '../../../../core/utils/unsubscribe-controller';
 import { emailValidator } from '../../../../core/validators/validators';
+import { ReservationService } from '../../services/reservation.service';
 
 @Component({
   selector: 'ma-personal-data',
@@ -34,13 +38,14 @@ import { emailValidator } from '../../../../core/validators/validators';
     MatSelectModule,
     MatProgressSpinnerModule,
     MatButtonModule,
-    TranslateModule
+    TranslateModule,
   ],
   templateUrl: './personal-data.component.html',
   styleUrl: './personal-data.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [slideInRightOnEnterAnimation(), slideInUpOnEnterAnimation()],
 })
-export class PersonalDataComponent implements OnInit {
+export class PersonalDataComponent implements OnInit, OnDestroy {
   fb = inject(FormBuilder);
   router = inject(Router);
   reservationService = inject(ReservationService);
@@ -55,81 +60,6 @@ export class PersonalDataComponent implements OnInit {
     { value: 'Slovakia', label: 'Slovensko' },
     { value: 'Czech Republic', label: 'Česká republika' },
   ];
-
-  ngOnInit(): void {
-    this.personalDataForm = this.createForm();
-
-    // Check if we have existing personal data and prepopulate form
-    this.reservationService.reservation$.subscribe((reservation) => {
-      if (reservation.personalData) {
-        this.personalDataForm.patchValue(reservation.personalData);
-      }
-    });
-
-    // Handle country changes to toggle city field validation
-    this.personalDataForm.get('country')?.valueChanges.subscribe((country) => {
-      const cityControl = this.personalDataForm.get('city');
-
-      if (country === 'Slovakia') {
-        cityControl?.setValidators([Validators.required]);
-      } else {
-        cityControl?.clearValidators();
-      }
-
-      cityControl?.updateValueAndValidity();
-    });
-  }
-
-  createForm(): FormGroup {
-    return this.fb.group({
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
-      personalId: [
-        '',
-        [Validators.required, this.validationService.adultValidator()],
-      ],
-      country: ['Slovakia', [Validators.required]],
-      city: ['', [Validators.required]], // Initially required for Slovakia
-      email: ['', [Validators.required, emailValidator()]],
-    });
-  }
-
-  onSubmit(): void {
-    if (this.personalDataForm.invalid) {
-      // Mark all fields as touched to trigger validation messages
-      Object.keys(this.personalDataForm.controls).forEach((key) => {
-        const control = this.personalDataForm.get(key);
-        control?.markAsTouched();
-      });
-      return;
-    }
-
-    this.submitting.set(true);
-    this.submitError.set(false);
-
-    this.reservationService
-      .savePersonalData(this.personalDataForm.value)
-      .subscribe({
-        next: (success) => {
-          this.submitting.set(false);
-          if (success) {
-            this.router.navigate(['/reservation/summary']);
-
-            this.reservationService.stepper?.next();
-          } else {
-            this.submitError.set(true);
-
-            this.submitErrorMessage.set('Chyba pri ukladaní údajov');
-          }
-        },
-        error: (err) => {
-          this.submitting.set(false);
-          console.error('Error submitting personal data:', err);
-          this.submitError.set(true);
-          this.submitErrorMessage.set(err);
-        },
-      });
-  }
 
   // Helper getters for form controls
   get f(): { [key: string]: AbstractControl } {
@@ -178,5 +108,93 @@ export class PersonalDataComponent implements OnInit {
     }
 
     return 'Neplatná e-mailová adresa';
+  }
+
+  private unsub = new UnsubscribeController();
+
+  ngOnInit(): void {
+    this.personalDataForm = this.createForm();
+    this.initListeners();
+  }
+
+  onSubmit(): void {
+    if (this.personalDataForm.invalid) {
+      // Mark all fields as touched to trigger validation messages
+      Object.keys(this.personalDataForm.controls).forEach((key) => {
+        const control = this.personalDataForm.get(key);
+        control?.markAsTouched();
+      });
+      return;
+    }
+
+    this.submitting.set(true);
+    this.submitError.set(false);
+
+    this.reservationService
+      .savePersonalData(this.personalDataForm.value)
+      .subscribe({
+        next: (success) => {
+          this.submitting.set(false);
+          if (success) {
+            this.router.navigate(['/reservation/summary']);
+
+            this.reservationService.stepper?.next();
+          } else {
+            this.submitError.set(true);
+
+            this.submitErrorMessage.set('Chyba pri ukladaní údajov');
+          }
+        },
+        error: (err) => {
+          this.submitting.set(false);
+          console.error('Error submitting personal data:', err);
+          this.submitError.set(true);
+          this.submitErrorMessage.set(err);
+        },
+      });
+  }
+
+  private createForm(): FormGroup {
+    return this.fb.group({
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+      personalId: [
+        '',
+        [Validators.required, this.validationService.adultValidator()],
+      ],
+      country: ['Slovakia', [Validators.required]],
+      city: ['', [Validators.required]], // Initially required for Slovakia
+      email: ['', [Validators.required, emailValidator()]],
+    });
+  }
+
+  private initListeners(): void {
+    // Check if we have existing personal data and prepopulate form
+    this.unsub.sub = this.reservationService.reservation$.subscribe(
+      (reservation) => {
+        if (reservation.personalData) {
+          this.personalDataForm.patchValue(reservation.personalData);
+        }
+      }
+    );
+
+    // Handle country changes to toggle city field validation
+    this.unsub.sub = this.personalDataForm
+      .get('country')
+      ?.valueChanges.subscribe((country) => {
+        const cityControl = this.personalDataForm.get('city');
+
+        if (country === 'Slovakia') {
+          cityControl?.setValidators([Validators.required]);
+        } else {
+          cityControl?.clearValidators();
+        }
+
+        cityControl?.updateValueAndValidity();
+      }) as Subscription;
+  }
+
+  ngOnDestroy(): void {
+    this.unsub.destroy();
   }
 }

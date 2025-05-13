@@ -1,7 +1,7 @@
 <div class="personal-data">
-  <p class="text-[24px] mb-4">{{ 'PERSONAL.PERSONAL_DATA' | translate }}</p>
+  <p @slideInUpOnEnter class="text-[24px] mb-4">{{ 'PERSONAL.PERSONAL_DATA' | translate }}</p>
 
-  <form [formGroup]="personalDataForm" (ngSubmit)="onSubmit()">
+  <form @slideInRightOnEnter [formGroup]="personalDataForm" (ngSubmit)="onSubmit()">
     <div class="form-fields">
       <div class="form-row flex gap-4">
         <mat-form-field appearance="outline">

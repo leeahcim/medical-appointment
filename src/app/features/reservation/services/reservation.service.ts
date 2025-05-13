@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MatStepper } from '@angular/material/stepper';
 import { Router } from '@angular/router';
 import {
@@ -9,15 +9,20 @@ import {
   switchMap,
   tap,
 } from 'rxjs';
-import { PersonalData } from '../models/personal-data.model';
-import { Reservation } from '../models/reservation.model';
-import { Slot } from '../models/slot.model';
-import { ApiDataService } from './api-data.service';
+import { PersonalData } from '../../../core/models/personal-data.model';
+import { Reservation } from '../../../core/models/reservation.model';
+import { Slot } from '../../../core/models/slot.model';
+import { ApiDataService } from './reservation-data.service';
+import { ReservationFactoryService } from './reservation.factory.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ReservationService {
+  factory = inject(ReservationFactoryService);
+  data = inject(ApiDataService);
+  router = inject(Router);
+
   // Initialize empty reservation state
   private initialState: Reservation = {
     selectedSlot: null,
@@ -44,12 +49,12 @@ export class ReservationService {
 
   public stepper!: MatStepper;
 
-  constructor(private data: ApiDataService, private router: Router) {}
 
-  setStepper(stepper: MatStepper): void { 
+  /**
+   * Save stepper reference for navigation
+   */
+  setStepper(stepper: MatStepper): void {
     this.stepper = stepper;
-
-    console.log('stepper', this.stepper);
   }
 
   /**
@@ -66,12 +71,14 @@ export class ReservationService {
     return this.data.getAvailableSlots().pipe(
       tap((response) => {
         if (response?.slots) {
-          this.availableSlotsSubject.next(this.parseSlots(response.slots));
+          this.availableSlotsSubject.next(
+            this.factory.parseSlots(response.slots)
+          );
         }
       }),
       switchMap((response) => {
         if (response?.slots) {
-          return of(this.parseSlots(response.slots));
+          return of(this.factory.parseSlots(response.slots));
         }
         return of([]);
       }),
@@ -188,23 +195,5 @@ export class ReservationService {
       default:
         return true;
     }
-  }
-
-  private parseSlots(
-    json: Record<string, { id: string; time: string }[]>
-  ): Slot[] {
-    const slots: Slot[] = [];
-
-    for (const [date, entries] of Object.entries(json)) {
-      for (const entry of entries) {
-        slots.push({
-          id: entry.id,
-          date: date,
-          time: entry.time,
-        });
-      }
-    }
-
-    return slots;
   }
 }

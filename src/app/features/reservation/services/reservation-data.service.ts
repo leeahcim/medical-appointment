@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 import {
   AvailableSlotsResponse,
   CompleteReservationResponse,
   SavePersonalDataResponse
-} from '../models/api-responses.model';
-import { PersonalData } from '../models/personal-data.model';
+} from '../../../core/models/api-responses.model';
+import { PersonalData } from '../../../core/models/personal-data.model';
 
 @Injectable({
   providedIn: 'root',

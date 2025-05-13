@@ -6,7 +6,7 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { map, Observable, take } from 'rxjs';
-import { ReservationService } from '../services/reservation.service';
+import { ReservationService } from '../../features/reservation/services/reservation.service';
 
 @Injectable({
   providedIn: 'root',
@@ -30,11 +30,11 @@ export class ReservationFlowGuard implements CanActivate {
         if (!canProceed) {
           // Determine appropriate redirection based on reservation state
           if (!reservation.selectedSlot) {
-            this.router.navigate(['/slot-selection']);
+            this.router.navigate(['/reservation/slot-selection']);
           } else if (!reservation.personalData) {
-            this.router.navigate(['/personal-data']);
+            this.router.navigate(['/reservation/personal-data']);
           } else if (!reservation.isComplete) {
-            this.router.navigate(['/summary']);
+            this.router.navigate(['/reservation/summary']);
           }
         }
 

@@ -1,4 +1,5 @@
 import { inject, Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatStepper } from '@angular/material/stepper';
 import { Router } from '@angular/router';
 import {
@@ -12,6 +13,7 @@ import {
 import { PersonalData } from '../../../core/models/personal-data.model';
 import { Reservation } from '../../../core/models/reservation.model';
 import { Slot } from '../../../core/models/slot.model';
+import { CancelReservationDialogComponent } from '../components/cancel-reservation-dialog/cancel-reservation-dialog.component';
 import { ApiDataService } from './reservation-data.service';
 import { ReservationFactoryService } from './reservation.factory.service';
 
@@ -22,6 +24,7 @@ export class ReservationService {
   factory = inject(ReservationFactoryService);
   data = inject(ApiDataService);
   router = inject(Router);
+  dialog = inject(MatDialog);
 
   // Initialize empty reservation state
   private initialState: Reservation = {
@@ -65,7 +68,20 @@ export class ReservationService {
     this.router.navigate(['/reservation/slot-selection']);
     this.stepper.reset();
   }
+  
 
+  cancelReservation(): void {
+    const dialog = this.dialog.open(CancelReservationDialogComponent, {
+      width: '640px',
+    });
+
+    dialog.afterClosed().subscribe((result) => {
+
+      if (result) {
+        this.resetReservation();
+      }
+    });
+  }
   /**
    * Fetch available slots from API
    */

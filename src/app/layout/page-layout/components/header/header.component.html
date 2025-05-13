@@ -1,6 +1,10 @@
 <div class="header flex items-center justify-between p-4">
   <img src="/assets/images/logo.svg" alt="Logo" class="h-12 ml-4" />
-  <mat-stepper class="stepper pointer-events-none" linear #stepper>
+  <mat-stepper
+    class="stepper pointer-events-none"
+    linear
+    #stepper
+  >
     <mat-step>
       <ng-template matStepLabel>{{ 'STEPPER.STEP_1' | translate }}</ng-template>
     </mat-step>
@@ -21,12 +25,12 @@
         [class.active]="lang === translate.activeLang()"
         (click)="translate.switchLanguage(lang)"
         (keydown.enter)="translate.switchLanguage(lang)"
-        >{{ lang }} </span
-      >
+        >{{ lang }}
+      </span>
       }
     </div>
 
-    <button mat-icon-button (click)="cancelReservation()">
+    <button mat-icon-button (click)="reservation.cancelReservation()">
       <mat-icon>close</mat-icon>
     </button>
   </div>

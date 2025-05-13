@@ -44,5 +44,15 @@
     "TEXT": "Do you really want to cancel the reservation process? After this step, you will lose any saved changes, and if you want to make a reservation again, you will need to go through the entire process from the beginning.",
     "APPROVE": "Yes, cancel the reservation",
     "CANCEL": "No, I want to continue"
+  },
+  "SUCCESS": {
+    "TITLE": "Your reservation was successful",
+    "TEXT": "Your consultation appointment has been successfully reserved.",
+    "BUTTON": "Back to the Bory Hospital website"
+  },
+  "ERROR": {
+    "TITLE": "Something went wrong",
+    "TEXT": "Your consultation appointment reservation was not completed.",
+    "BUTTON": "Back to the Bory Hospital website"
   }
 }

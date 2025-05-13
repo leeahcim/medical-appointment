@@ -62,6 +62,8 @@ export class ReservationService {
    */
   resetReservation(): void {
     this.reservationState.next(this.initialState);
+    this.router.navigate(['/reservation/slot-selection']);
+    this.stepper.reset();
   }
 
   /**
@@ -168,7 +170,7 @@ export class ReservationService {
    * Navigate to hospital website on successful completion
    */
   navigateToHospitalSite(): void {
-    window.location.href = 'https://nemocnicabory.sk';
+    window.location.href = 'https://nemocnica-bory.sk/';
   }
 
   /**

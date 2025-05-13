@@ -45,5 +45,15 @@
     "TEXT": "Naozaj chcete zrušiť proces rezervácie? Po tomto kroku stratíte uložené zmeny a v prípade opätovnej rezervácie bude potrebné spraviť celý proces odznova.",
     "APPROVE": "Áno, zrušiť rezerváciu",
     "CANCEL": "Nie, chcem pokračovať"
+  },
+  "SUCCESS": {
+    "TITLE": "Vaša rezervácia bola úspešná",
+    "TEXT": "Váš termín na konzultáciu máte úspešne rezervovaný.",
+    "BUTTON": "Späť na stránku Nemocnice Bory"
+  },
+  "ERROR": {
+    "TITLE": "Niečo sa pokazilo",
+    "TEXT": " Vaša rezervácia termínu na konzultáciu nebola dokončená.",
+    "BUTTON": "Späť na stránku Nemocnice Bory"
   }
 }

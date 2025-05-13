@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
@@ -12,10 +12,13 @@ import { ReservationService } from '../../features/reservation/services/reservat
   providedIn: 'root',
 })
 export class ReservationFlowGuard implements CanActivate {
-  constructor(
-    private reservationService: ReservationService,
-    private router: Router
-  ) {}
+  reservationService = inject(ReservationService);
+  router = inject(Router);
+
+  /**
+   * Guard to check if the user can proceed to the next step in the reservation flow.
+   * Redirects to appropriate step if not allowed.
+   */
 
   canActivate(
     route: ActivatedRouteSnapshot,

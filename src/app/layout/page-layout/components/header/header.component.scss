@@ -4,9 +4,27 @@
 }
 
 .stepper {
-  background: white !important;
+  background: white;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .lang.active {
-    color: var(--primary);
+  color: var(--primary);
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    flex-direction: column;
+  }
+
+  .stepper {
+    display: none;
+  }
+  .lang {
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 1rem;
+  }
 }

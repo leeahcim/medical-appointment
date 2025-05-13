@@ -4,3 +4,9 @@
   padding: 2rem 4rem;
   display: flex;
 }
+
+@media (max-width: 768px) {
+  .body {
+    padding: 2rem 1rem;
+  }
+}

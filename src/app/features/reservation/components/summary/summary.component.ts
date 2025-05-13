@@ -2,6 +2,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   OnInit,
   signal,
 } from '@angular/core';
@@ -19,7 +20,10 @@ import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { Reservation } from '../../../../core/models/reservation.model';
-import { slideInRightOnEnterAnimation, slideInUpOnEnterAnimation } from '../../../../core/services/animations.service';
+import {
+  slideInRightOnEnterAnimation,
+  slideInUpOnEnterAnimation,
+} from '../../../../core/services/animations.service';
 import { ReservationService } from '../../services/reservation.service';
 
 @Component({
@@ -40,20 +44,18 @@ import { ReservationService } from '../../services/reservation.service';
   providers: [DatePipe],
 })
 export class SummaryComponent implements OnInit {
-  reservation$: Observable<Reservation>;
-  agreementsForm: FormGroup;
+  fb = inject(FormBuilder);
+  router = inject(Router);
+  reservationService = inject(ReservationService);
+
+  reservation$!: Observable<Reservation>;
+  agreementsForm!: FormGroup;
   submitting = signal(false);
 
-  constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private reservationService: ReservationService
-  ) {
+  ngOnInit(): void {
     this.reservation$ = this.reservationService.reservation$;
     this.agreementsForm = this.createForm();
-  }
 
-  ngOnInit(): void {
     // Check if we have existing agreements and prepopulate form
     this.reservationService.reservation$.subscribe((reservation) => {
       if (reservation.agreements) {

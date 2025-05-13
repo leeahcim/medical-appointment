@@ -56,6 +56,7 @@ export class HeaderComponent implements  AfterViewInit {
     });
 
     dialog.afterClosed().subscribe((result) => {
+
       if (result) {
         this.reservation.resetReservation();
       }

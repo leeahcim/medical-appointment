@@ -18,8 +18,8 @@
   </div>
   } @if(!loading() && !error()) {
   <mat-card class="p-8" [@slideInRightOnEnter]>
-    <div class="flex gap-8">
-      <div class="w-[20rem]">
+    <div class="flex gap-8 wrapper">
+      <div class="w-[20rem] cal">
         <mat-calendar
           [dateClass]="dateClass"
           [(selected)]="selectedDate"
@@ -29,8 +29,8 @@
           {{ "SLOT.FREE_TERMS" | translate}}
         </div>
       </div>
-      <div class="divider"></div>
-      <div class="dates-container w-[20rem]">
+      <div class="divider mbhidden"></div>
+      <div class="dates-container w-[20rem] mb:w-[100%]">
         <!-- Check if selectedDate exists in groupedSlots-->
         <p class="font-[14px] text-center mb-8"> {{ "SLOT.FREE_TIMES" | translate}}</p>
         <ng-container *ngIf="timesForDate().length; else noDates">

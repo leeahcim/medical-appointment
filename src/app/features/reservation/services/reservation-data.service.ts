@@ -1,11 +1,14 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable, catchError, throwError } from 'rxjs';
-import { environment } from '../../../../environments/environment';
+import { inject, Injectable } from '@angular/core';
+import { catchError, Observable, throwError } from 'rxjs';
+import {
+  API_ENDPOINTS,
+  getEndpointName,
+} from '../../../core/constants/endpoints.constants';
 import {
   AvailableSlotsResponse,
   CompleteReservationResponse,
-  SavePersonalDataResponse
+  SavePersonalDataResponse,
 } from '../../../core/models/api-responses.model';
 import { PersonalData } from '../../../core/models/personal-data.model';
 
@@ -13,9 +16,7 @@ import { PersonalData } from '../../../core/models/personal-data.model';
   providedIn: 'root',
 })
 export class ApiDataService {
-  private apiUrl = environment.api_url;
-
-  constructor(private http: HttpClient) {}
+  http = inject(HttpClient);
 
   /**
    * Fetches available appointment slots from the API
@@ -23,7 +24,7 @@ export class ApiDataService {
   getAvailableSlots(): Observable<AvailableSlotsResponse> {
     return this.http
       .get<AvailableSlotsResponse>(
-        `${this.apiUrl}/available-slots`
+        getEndpointName(API_ENDPOINTS.RESERVATION.GET_AVAILABLE_SLOTS)
       )
       .pipe(catchError((error) => this.handleError(error)));
   }
@@ -36,7 +37,7 @@ export class ApiDataService {
   ): Observable<SavePersonalDataResponse> {
     return this.http
       .post<SavePersonalDataResponse>(
-        `${this.apiUrl}/save-personal-data`,
+        getEndpointName(API_ENDPOINTS.RESERVATION.SAVE_PERSONAL_DATA),
         personalData
       )
       .pipe(catchError((error) => this.handleError(error)));
@@ -51,7 +52,7 @@ export class ApiDataService {
   ): Observable<CompleteReservationResponse> {
     return this.http
       .post<CompleteReservationResponse>(
-        `${this.apiUrl}/complete`,
+        getEndpointName(API_ENDPOINTS.RESERVATION.COMPLETE_RESERVATION),
         { id: slotId, agreements }
       )
       .pipe(catchError((error) => this.handleError(error)));

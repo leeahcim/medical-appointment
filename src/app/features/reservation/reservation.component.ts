@@ -16,7 +16,6 @@ export class ReservationComponent implements OnInit, OnDestroy {
   router = inject(Router);
   reservation = inject(ReservationService);
 
-  showCancelModal = signal<boolean>(false);
   currentStep = signal<string>('');
 
   private unsub = new UnsubscribeController();

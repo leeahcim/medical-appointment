@@ -68,3 +68,21 @@
   border-radius: 100%;
   background: var(--primary);
 }
+
+@media screen and (max-width: 768px) {
+  .divider {
+    display: none;
+  }
+
+  .wrapper {
+    flex-direction: column;
+  }
+
+  .cal {
+    width: 100%;
+  }
+
+  mat-card {
+    padding: 1rem
+  }
+}

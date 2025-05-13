@@ -15,3 +15,12 @@
     width: 100%;
   }
 }
+
+@media screen and (max-width: 768px) {
+  .reservation-container {
+    .content {
+      padding: 0;
+    }
+  }
+  
+}

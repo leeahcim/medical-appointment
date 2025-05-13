@@ -28,6 +28,7 @@ export class TranslateLangService {
       : DEFAULT_LANGUAGE;
 
     // Set the default and current language
+    this.activeLang.set(defaultLang);
     this.translate.setDefaultLang(defaultLang);
   }
 }
